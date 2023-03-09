@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Hello World</title>
+</head>
+
+<body>
+<h1>Hello World</h1>
+
+<input type="text"
+       name="name"
+       hx-post="/greet"
+       hx-trigger="blur"/>
+
+<div th:replace="~{fragments :: greeting}"></div>
+
+<script type="text/javascript" th:src="@{/webjars/htmx.org/dist/htmx.min.js}"></script>
+</body>
+</html>
