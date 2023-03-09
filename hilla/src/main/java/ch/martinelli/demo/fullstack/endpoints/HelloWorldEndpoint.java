@@ -1,4 +1,4 @@
-package ch.martinelli.demo.fullstack.endpoints.helloworld;
+package ch.martinelli.demo.fullstack.endpoints;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;

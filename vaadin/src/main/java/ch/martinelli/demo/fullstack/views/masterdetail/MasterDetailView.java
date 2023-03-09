@@ -1,7 +1,7 @@
 package ch.martinelli.demo.fullstack.views.masterdetail;
 
-import ch.martinelli.demo.fullstack.data.entity.Person;
-import ch.martinelli.demo.fullstack.data.service.PersonService;
+import ch.martinelli.demo.fullstack.data.Person;
+import ch.martinelli.demo.fullstack.data.PersonService;
 import ch.martinelli.demo.fullstack.views.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

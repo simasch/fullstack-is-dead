@@ -17,14 +17,14 @@ import '@vaadin/polymer-legacy-adapter';
 import '@vaadin/split-layout';
 import '@vaadin/text-field';
 import '@vaadin/upload';
-import Person from 'Frontend/generated/ch/martinelli/demo/fullstack/data/entity/Person';
-import PersonModel from 'Frontend/generated/ch/martinelli/demo/fullstack/data/entity/PersonModel';
 import type Sort from 'Frontend/generated/dev/hilla/mappedtypes/Sort';
 import Direction from 'Frontend/generated/org/springframework/data/domain/Sort/Direction';
 import * as PersonEndpoint from 'Frontend/generated/PersonEndpoint';
 import { html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { View } from '../view';
+import Person from 'Frontend/generated/ch/martinelli/demo/fullstack/data/Person';
+import PersonModel from 'Frontend/generated/ch/martinelli/demo/fullstack/data/PersonModel';
 
 @customElement('master-detail-view')
 export class MasterDetailView extends View {

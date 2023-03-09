@@ -1,6 +1,6 @@
 package ch.martinelli.demo.fullstack;
 
-import ch.martinelli.demo.fullstack.data.service.PersonRepository;
+import ch.martinelli.demo.fullstack.data.PersonRepository;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;

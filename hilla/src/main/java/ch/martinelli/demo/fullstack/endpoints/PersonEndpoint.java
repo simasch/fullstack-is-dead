@@ -1,7 +1,7 @@
-package ch.martinelli.demo.fullstack.data.endpoint;
+package ch.martinelli.demo.fullstack.endpoints;
 
-import ch.martinelli.demo.fullstack.data.entity.Person;
-import ch.martinelli.demo.fullstack.data.service.PersonService;
+import ch.martinelli.demo.fullstack.data.Person;
+import ch.martinelli.demo.fullstack.data.PersonService;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
 import dev.hilla.Nonnull;
