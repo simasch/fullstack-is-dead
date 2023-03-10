@@ -2,6 +2,7 @@ package ch.martinelli.demo.fullstack.thymeleaf.controller;
 
 import ch.martinelli.demo.fullstack.thymeleaf.data.Person;
 import ch.martinelli.demo.fullstack.thymeleaf.data.PersonService;
+import io.github.wimdeblauwe.hsbt.mvc.HxRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,21 @@ public class PersonController {
     }
 
     @GetMapping("/persons")
-    public String findAll(Model model) {
+    public String findAll(Model model, Pageable pageable) {
         model.addAttribute("active", "persons");
 
-        Page<Person> persons = personService.list(Pageable.unpaged());
+        Page<Person> persons = personService.list(pageable);
         model.addAttribute("persons", persons);
 
         return "persons";
+    }
+
+    @GetMapping("/persons")
+    @HxRequest
+    public String findAllHtmx(Model model, Pageable pageable) {
+        Page<Person> persons = personService.list(pageable);
+        model.addAttribute("persons", persons);
+
+        return "persons :: tr#content-rows";
     }
 }

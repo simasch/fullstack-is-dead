@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:hx="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
 <body>
 <section layout:fragment="content">
@@ -17,7 +18,13 @@
             <th>Role</th>
             <th>Important</th>
         </tr>
-        <tr th:each="person: ${persons}">
+        <tr id="content-rows"
+            th:each="person, iterStat : ${persons}"
+            th:with="lastRow = ${iterStat.count == persons.size}"
+            hx:get="${lastRow} ? '/persons?size=' + ${persons.size} + '&page='+ ${persons.number + 1} : null"
+            hx:trigger="${lastRow} ? 'revealed' : null"
+            hx:swap="${lastRow} ? 'afterend' : null">
+
             <td th:text="${person.getFirstName()}"></td>
             <td th:text="${person.getLastName()}"></td>
             <td th:text="${person.getEmail()}"></td>
