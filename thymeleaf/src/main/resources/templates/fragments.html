@@ -2,8 +2,7 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<div th:fragment="greeting" id="greeting" hx-swap-oob="true">
-    <p th:text="${greeting}"></p>
+<div th:class="${greeting != null ? 'alert alert-success' : ''}" th:fragment="greeting" id="greeting" hx-swap-oob="true" th:text="${greeting}">
 </div>
 
 </html>

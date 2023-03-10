@@ -10,10 +10,22 @@
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date of Birth</th>
+            <th>Occupation</th>
+            <th>Role</th>
+            <th>Important</th>
         </tr>
         <tr th:each="person: ${persons}">
             <td th:text="${person.getFirstName()}"></td>
             <td th:text="${person.getLastName()}"></td>
+            <td th:text="${person.getEmail()}"></td>
+            <td th:text="${person.getPhone()}"></td>
+            <td th:text="${person.getDateOfBirth()}"></td>
+            <td th:text="${person.getOccupation()}"></td>
+            <td th:text="${person.getRole()}"></td>
+            <td th:text="${person.isImportant() ? '✓': ''}"></td>
         </tr>
     </table>
 </section>
