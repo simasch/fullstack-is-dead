@@ -6,15 +6,18 @@
 <section layout:fragment="content">
     <h1>Hello World</h1>
 
-    <form>
+    <form id="form" hx-post="/greet" hx-target="#greeting">
         <div class="mb-3">
             <label for="name" class="form-label">Your name</label>
             <input class="form-control"
                    type="text"
                    id="name"
-                   name="name"
-                   hx-post="/greet"
-                   hx-trigger="blur"/>
+                   name="name"/>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary mb-3">
+                Say hello
+            </button>
         </div>
     </form>
 
