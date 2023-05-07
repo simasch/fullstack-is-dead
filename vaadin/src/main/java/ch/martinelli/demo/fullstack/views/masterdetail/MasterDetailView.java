@@ -33,7 +33,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.Optional;
 
-@PageTitle("Master-Detail")
+@PageTitle("Master-Detail | Vaadin")
 @Route(value = "master-detail/:personID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {

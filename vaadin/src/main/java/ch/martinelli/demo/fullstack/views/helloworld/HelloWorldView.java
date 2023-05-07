@@ -10,26 +10,22 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-@PageTitle("Hello World")
+@PageTitle("Hello World | Vaadin")
 @Route(value = "hello", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HelloWorldView extends HorizontalLayout {
 
-    private TextField name;
-    private Button sayHello;
-
     public HelloWorldView() {
-        name = new TextField("Your name");
-        sayHello = new Button("Say hello");
-        sayHello.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue());
-        });
-        sayHello.addClickShortcut(Key.ENTER);
-
         setMargin(true);
-        setVerticalComponentAlignment(Alignment.END, name, sayHello);
+
+        TextField name = new TextField("Your name");
+
+        Button sayHello = new Button("Say hello", e ->
+                Notification.show("Hello %s".formatted(name.getValue()), 5000, Notification.Position.MIDDLE));
 
         add(name, sayHello);
+
+        setVerticalComponentAlignment(Alignment.END, name, sayHello);
     }
 
 }

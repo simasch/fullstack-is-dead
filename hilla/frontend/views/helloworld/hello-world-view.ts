@@ -29,6 +29,6 @@ export class HelloWorldView extends View {
 
   async sayHello() {
     const serverResponse = await HelloWorldEndpoint.sayHello(this.name);
-    Notification.show(serverResponse);
+    Notification.show(serverResponse, {duration: 5000, position: "middle"} );
   }
 }

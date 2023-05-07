@@ -15,14 +15,14 @@
 <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-2 sidenav">
-            <h4>Thymeleaf</h4>
+            <h4 class="p-3">Thymeleaf</h4>
             <ul class="nav flex-column nav-pills">
                 <li class="nav-item"><a th:class="${active == 'hello-world' ? 'nav-link active' : 'nav-link'}" href="/">Hello World</a></li>
                 <li class="nav-item"><a th:class="${active == 'persons' ? 'nav-link active' : 'nav-link'}" href="/persons">Persons</a></li>
             </ul>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-sm-10 p-2">
             <div layout:fragment="content"></div>
         </div>
     </div>
