@@ -21,7 +21,6 @@ public class Person {
 
     private String firstName;
     private String lastName;
-    @Email
     private String email;
     private String phone;
     private LocalDate dateOfBirth;
@@ -49,6 +48,7 @@ public class Person {
         this.lastName = lastName;
     }
 
+    @Email
     public String getEmail() {
         return email;
     }
