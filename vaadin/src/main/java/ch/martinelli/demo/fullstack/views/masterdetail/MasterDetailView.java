@@ -43,19 +43,10 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private final Grid<Person> grid = new Grid<>(Person.class, false);
 
-    private TextField firstName;
-    private TextField lastName;
-    private TextField email;
-    private TextField phone;
-    private DatePicker dateOfBirth;
-    private TextField occupation;
-    private TextField role;
-    private Checkbox important;
+    private Button cancel = new Button("Cancel");
+    private Button save = new Button("Save");
 
-    private final Button cancel = new Button("Cancel");
-    private final Button save = new Button("Save");
-
-    private final BeanValidationBinder<Person> binder;
+    private final BeanValidationBinder<Person> binder = new BeanValidationBinder<>(Person.class);
 
     private Person person;
 
@@ -82,7 +73,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         grid.addColumn("occupation").setAutoWidth(true);
         grid.addColumn("role").setAutoWidth(true);
         LitRenderer<Person> importantRenderer = LitRenderer.<Person>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
+                        "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
                 .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
                         important -> important.isImportant()
                                 ? "var(--lumo-primary-text-color)"
@@ -91,7 +82,8 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
 
         grid.setItems(query -> personService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
+                        PageRequest.of(query.getPage(), query.getPageSize(),
+                                VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
@@ -104,13 +96,6 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
                 UI.getCurrent().navigate(MasterDetailView.class);
             }
         });
-
-        // Configure Form
-        binder = new BeanValidationBinder<>(Person.class);
-
-        // Bind fields. This is where you'd define e.g. validation rules
-
-        binder.bindInstanceFields(this);
 
         cancel.addClickListener(e -> {
             clearForm();
@@ -166,14 +151,31 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        firstName = new TextField("First Name");
-        lastName = new TextField("Last Name");
-        email = new TextField("Email");
-        phone = new TextField("Phone");
-        dateOfBirth = new DatePicker("Date Of Birth");
-        occupation = new TextField("Occupation");
-        role = new TextField("Role");
-        important = new Checkbox("Important");
+
+        TextField firstName = new TextField("First Name");
+        binder.forField(firstName).bind("firstName");
+
+        TextField lastName = new TextField("Last Name");
+        binder.forField(lastName).bind("lastName");
+
+        TextField email = new TextField("Email");
+        binder.forField(email).bind("email");
+
+        TextField phone = new TextField("Phone");
+        binder.forField(phone).bind("phone");
+
+        DatePicker dateOfBirth = new DatePicker("Date Of Birth");
+        binder.forField(dateOfBirth).bind("dateOfBirth");
+
+        TextField occupation = new TextField("Occupation");
+        binder.forField(occupation).bind("occupation");
+
+        TextField role = new TextField("Role");
+        binder.forField(role).bind("role");
+
+        Checkbox important = new Checkbox("Important");
+        binder.forField(important).bind("important");
+
         formLayout.add(firstName, lastName, email, phone, dateOfBirth, occupation, role, important);
 
         editorDiv.add(formLayout);
