@@ -1,8 +1,6 @@
 package ch.martinelli.demo.fullstack.views;
 
 
-import ch.martinelli.demo.fullstack.components.appnav.AppNav;
-import ch.martinelli.demo.fullstack.components.appnav.AppNavItem;
 import ch.martinelli.demo.fullstack.views.helloworld.HelloWorldView;
 import ch.martinelli.demo.fullstack.views.masterdetail.MasterDetailView;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -12,6 +10,8 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.vaadin.lineawesome.LineAwesomeIcon;
@@ -49,13 +49,11 @@ public class MainLayout extends AppLayout {
         addToDrawer(header, scroller, createFooter());
     }
 
-    private AppNav createNavigation() {
-        // AppNav is not yet an official component.
-        // For documentation, visit https://github.com/vaadin/vcf-nav#readme
-        AppNav nav = new AppNav();
+    private SideNav createNavigation() {
+        SideNav nav = new SideNav();
 
-        nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
-        nav.addItem(new AppNavItem("Master-Detail", MasterDetailView.class, LineAwesomeIcon.COLUMNS_SOLID.create()));
+        nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
+        nav.addItem(new SideNavItem("Master-Detail", MasterDetailView.class, LineAwesomeIcon.COLUMNS_SOLID.create()));
 
         return nav;
     }
