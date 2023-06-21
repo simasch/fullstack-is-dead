@@ -1,11 +1,11 @@
 import '@vaadin/button';
 import '@vaadin/notification';
-import { Notification } from '@vaadin/notification';
+import {Notification} from '@vaadin/notification';
 import '@vaadin/text-field';
-import * as HelloWorldEndpoint from 'Frontend/generated/HelloWorldEndpoint';
-import { html } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { View } from '../../views/view';
+import * as HelloWorldEndpoint from 'Frontend/generated/HelloWorldEndpoint.js';
+import {html} from 'lit';
+import {customElement} from 'lit/decorators.js';
+import {View} from '../../views/view.js';
 
 @customElement('hello-world-view')
 export class HelloWorldView extends View {
@@ -29,6 +29,6 @@ export class HelloWorldView extends View {
 
   async sayHello() {
     const serverResponse = await HelloWorldEndpoint.sayHello(this.name);
-    Notification.show(serverResponse, {duration: 5000, position: "middle"} );
+    Notification.show(serverResponse);
   }
 }

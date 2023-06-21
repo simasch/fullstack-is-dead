@@ -1,4 +1,4 @@
-import type { Route } from '@vaadin/router';
+import type {Route} from '@vaadin/router';
 import './views/helloworld/hello-world-view';
 import './views/main-layout';
 
@@ -9,7 +9,7 @@ export type ViewRoute = Route & {
 };
 
 export const views: ViewRoute[] = [
-  // place routes below (more info https://hilla.dev/docs/routing)
+  // Place routes below (more info https://hilla.dev/docs/routing)
   {
     path: '',
     component: 'hello-world-view',
@@ -28,7 +28,7 @@ export const views: ViewRoute[] = [
     icon: 'columns-solid',
     title: 'Master-Detail',
     action: async (_context, _command) => {
-      await import('./views/masterdetail/master-detail-view');
+      await import('./views/masterdetail/master-detail-view.js');
       return;
     },
   },

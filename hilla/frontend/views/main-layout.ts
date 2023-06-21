@@ -1,20 +1,20 @@
-import '@vaadin-component-factory/vcf-nav';
 import '@vaadin/app-layout';
-import { AppLayout } from '@vaadin/app-layout';
+import {AppLayout} from '@vaadin/app-layout';
 import '@vaadin/app-layout/vaadin-drawer-toggle';
 import '@vaadin/avatar';
 import '@vaadin/icon';
 import '@vaadin/menu-bar';
 import '@vaadin/scroller';
+import '@vaadin/side-nav';
 import '@vaadin/tabs';
 import '@vaadin/tabs/vaadin-tab';
 import '@vaadin/vaadin-lumo-styles/vaadin-iconset';
-import { html } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { router } from '../index';
-import { views } from '../routes';
-import { appStore } from '../stores/app-store';
-import { Layout } from './view';
+import {html} from 'lit';
+import {customElement} from 'lit/decorators.js';
+import {router} from '../index.js';
+import {views} from '../routes.js';
+import {appStore} from '../stores/app-store.js';
+import {Layout} from './view.js';
 
 interface RouteInfo {
   path: string;
@@ -31,12 +31,10 @@ export class MainLayout extends Layout {
           <h1 class="text-l m-0">${appStore.applicationName}</h1>
         </header>
         <vaadin-scroller slot="drawer" scroll-direction="vertical">
-          <!-- vcf-nav is not yet an official component -->
-          <!-- For documentation, visit https://github.com/vaadin/vcf-nav#readme -->
-          <vcf-nav aria-label="${appStore.applicationName}">
+          <vaadin-side-nav aria-label="${appStore.applicationName}">
             ${this.getMenuRoutes().map(
               (viewRoute) => html`
-                <vcf-nav-item path=${router.urlForPath(viewRoute.path)}>
+                <vaadin-side-nav-item path=${router.urlForPath(viewRoute.path)}>
                   <span
                     class="navicon"
                     style="--mask-image: url('line-awesome/svg/${viewRoute.icon}.svg')"
@@ -44,10 +42,10 @@ export class MainLayout extends Layout {
                     aria-hidden="true"
                   ></span>
                   ${viewRoute.title}
-                </vcf-nav-item>
+                </vaadin-side-nav-item>
               `
             )}
-          </vcf-nav>
+          </vaadin-side-nav>
         </vaadin-scroller>
 
         <footer slot="drawer"></footer>

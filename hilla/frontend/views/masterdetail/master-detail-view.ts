@@ -1,30 +1,30 @@
-import { Binder, field } from '@hilla/form';
-import { EndpointError } from '@hilla/frontend';
+import {Binder, field} from '@hilla/form';
+import {EndpointError} from '@hilla/frontend';
 import '@vaadin/button';
 import '@vaadin/date-picker';
 import '@vaadin/date-time-picker';
 import '@vaadin/form-layout';
 import '@vaadin/grid';
-import type { Grid, GridDataProviderCallback, GridDataProviderParams } from '@vaadin/grid';
-import { columnBodyRenderer } from '@vaadin/grid/lit';
+import type {Grid, GridDataProviderCallback, GridDataProviderParams} from '@vaadin/grid';
+import {columnBodyRenderer} from '@vaadin/grid/lit';
 import '@vaadin/grid/vaadin-grid-sort-column';
 import '@vaadin/horizontal-layout';
 import '@vaadin/icon';
 import '@vaadin/icons';
 import '@vaadin/notification';
-import { Notification } from '@vaadin/notification';
+import {Notification} from '@vaadin/notification';
 import '@vaadin/polymer-legacy-adapter';
 import '@vaadin/split-layout';
 import '@vaadin/text-field';
 import '@vaadin/upload';
-import type Sort from 'Frontend/generated/dev/hilla/mappedtypes/Sort';
-import Direction from 'Frontend/generated/org/springframework/data/domain/Sort/Direction';
+import Person from 'Frontend/generated/ch/martinelli/demo/fullstack/data/entity/Person';
+import PersonModel from 'Frontend/generated/ch/martinelli/demo/fullstack/data/entity/PersonModel';
+import type Sort from 'Frontend/generated/dev/hilla/mappedtypes/Sort.js';
+import Direction from 'Frontend/generated/org/springframework/data/domain/Sort/Direction.js';
 import * as PersonEndpoint from 'Frontend/generated/PersonEndpoint';
-import { html } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { View } from '../view';
-import Person from 'Frontend/generated/ch/martinelli/demo/fullstack/data/Person';
-import PersonModel from 'Frontend/generated/ch/martinelli/demo/fullstack/data/PersonModel';
+import {html} from 'lit';
+import {customElement, property, query} from 'lit/decorators.js';
+import {View} from '../view.js';
 
 @customElement('master-detail-view')
 export class MasterDetailView extends View {

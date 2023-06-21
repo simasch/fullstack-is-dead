@@ -1,5 +1,5 @@
-import { RouterLocation } from '@vaadin/router';
-import { makeAutoObservable } from 'mobx';
+import {RouterLocation} from '@vaadin/router';
+import {makeAutoObservable} from 'mobx';
 
 export class AppStore {
   applicationName = 'Hilla';
