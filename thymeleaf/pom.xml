@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.6</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -14,8 +14,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <java.version>19</java.version>
+        <java.version>21</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,12 +46,12 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
-            <version>0.41</version>
+            <version>0.50</version>
         </dependency>
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>htmx.org</artifactId>
-            <version>1.7.0</version>
+            <version>1.9.10</version>
         </dependency>
 
         <dependency>
@@ -80,5 +81,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

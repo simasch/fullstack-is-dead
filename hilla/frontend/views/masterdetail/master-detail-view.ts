@@ -36,7 +36,7 @@ export class MasterDetailView extends View {
 
   private gridDataProvider = this.getGridData.bind(this);
 
-  private binder = new Binder<Person, PersonModel>(this, PersonModel);
+  private binder = new Binder<PersonModel>(this, PersonModel);
 
   render() {
     return html`

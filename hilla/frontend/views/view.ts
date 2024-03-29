@@ -10,10 +10,10 @@ export class MobxElement extends MobxLitElement {
    *
    * This should be called from `connectedCallback` to ensure that the reaction is active also if the element is attached again later.
    */
-  protected reaction<T, FireImmediately extends boolean = false>(
-    expression: (r: IReactionPublic) => T,
-    effect: (arg: T, prev: FireImmediately extends true ? T | undefined : T, r: IReactionPublic) => void,
-    opts?: IReactionOptions<T, FireImmediately>
+  reaction<T, FireImmediately extends boolean = false>(
+      expression: (r: IReactionPublic) => T,
+      effect: (arg: T, prev: FireImmediately extends true ? T | undefined : T, r: IReactionPublic) => void,
+      opts?: IReactionOptions<T, FireImmediately>
   ): void {
     this.disposers.push(reaction(expression, effect, opts));
   }
@@ -48,7 +48,7 @@ export class MobxElement extends MobxLitElement {
  * The view class also brings the MobX dependency for state management.
  */
 export class View extends MobxElement {
-  createRenderRoot(): Element | ShadowRoot {
+  protected createRenderRoot() {
     // Do not use a shadow root
     return this;
   }

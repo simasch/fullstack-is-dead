@@ -20,7 +20,7 @@ import javax.sql.DataSource;
  */
 @SpringBootApplication
 @Theme(value = "vaadin")
-public class VaadinApplication implements AppShellConfigurator {
+public class  VaadinApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
         SpringApplication.run(VaadinApplication.class, args);
