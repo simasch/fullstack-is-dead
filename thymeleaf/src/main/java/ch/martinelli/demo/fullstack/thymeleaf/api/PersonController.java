@@ -2,7 +2,7 @@ package ch.martinelli.demo.fullstack.thymeleaf.api;
 
 import ch.martinelli.demo.fullstack.thymeleaf.domain.Person;
 import ch.martinelli.demo.fullstack.thymeleaf.domain.PersonService;
-import io.github.wimdeblauwe.hsbt.mvc.HxRequest;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
