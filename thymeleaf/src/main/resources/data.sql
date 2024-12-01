@@ -1,3 +1,5 @@
+truncate table person
+
 insert into person(version, id,first_name,last_name,email,phone,date_of_birth,occupation,role,important) values (1, 1,'Eula','Lane','eula.lane@jigrormo.ye','(762) 526-5961','1953-08-02','Insurance Clerk','Worker',false)
 insert into person(version, id,first_name,last_name,email,phone,date_of_birth,occupation,role,important) values (1, 2,'Barry','Rodriquez','barry.rodriquez@zun.mm','(267) 955-5124','2012-08-02','Mortarman','Manager',false)
 insert into person(version, id,first_name,last_name,email,phone,date_of_birth,occupation,role,important) values (1, 3,'Eugenia','Selvi','eugenia.selvi@capfad.vn','(680) 368-2192','1972-07-18','Beer Coil Cleaner','External',false)
