@@ -31,12 +31,10 @@ public class PersonController {
     }
 
     @GetMapping("/persons/paging")
-    public String findAll(Model model, @RequestParam int page, @RequestParam int size) {
-        model.addAttribute("active", "persons");
-
+    public String findAll(Model model, @RequestParam Integer page, @RequestParam Integer size) {
         Page<Person> persons = personService.list(PageRequest.of(page, size));
         model.addAttribute("persons", persons);
 
-        return "fragment/person-rows";
+        return "fragments/person-rows";
     }
 }

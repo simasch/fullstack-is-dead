@@ -9,9 +9,7 @@ content = @`
 <h1>Persons</h1>
 
     <table class="table">
-        <tr hx-get="/persons/paging?size=' + ${persons.getSize()} + '&page='+ ${persons.getNumber() + 1}"
-            hx-trigger="revealed"
-            hx-swap="afterend">
+        <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
