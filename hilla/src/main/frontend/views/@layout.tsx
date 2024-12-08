@@ -37,7 +37,7 @@ export default function MainLayout() {
               </SideNavItem>
             ))}
           </SideNav>
-        </header><Button>Button</Button>
+        </header>
       </div>
 
       <DrawerToggle slot="navbar" aria-label="Menu toggle"></DrawerToggle>
