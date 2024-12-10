@@ -21,8 +21,8 @@
         <div class="col-sm-2 sidenav">
             <h4 class="p-3">JTE</h4>
             <ul class="nav flex-column nav-pills">
-                <li class="nav-item"><a class="${active == "hello-world" ? "nav-link active" : "nav-link"}" href="/">Hello World</a></li>
-                <li class="nav-item"><a class="${active == "persons" ? "nav-link active" : "nav-link"}" href="/persons">Persons</a></li>
+                <li class="nav-item"><a class="${active.equals("hello-world") ? "nav-link active" : "nav-link"}" href="/">Hello World</a></li>
+                <li class="nav-item"><a class="${active.equals("persons") ? "nav-link active" : "nav-link"}" href="/persons">Persons</a></li>
             </ul>
         </div>
 

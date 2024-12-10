@@ -1,6 +1,5 @@
 @param String greeting
 
-<div
-     class="${greeting != null ? "alert alert-success" : ""}">
+<div class="${greeting != null ? "alert alert-success" : ""}">
     ${greeting}
 </div>
