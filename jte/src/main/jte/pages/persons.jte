@@ -10,12 +10,12 @@ content = @`
 
     <table class="table">
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Date of Birth</th>
-            <th>Occupation</th>
+            <th style="width: 10rem">First Name</th>
+            <th style="width: 10rem">Last Name</th>
+            <th style="width: 10rem">Email</th>
+            <th style="width: 14rem">Phone</th>
+            <th style="width: 10rem">Date of Birth</th>
+            <th style="width: 15rem">Occupation</th>
             <th>Role</th>
             <th>Important</th>
         </tr>
