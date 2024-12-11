@@ -22,25 +22,22 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.Menu;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
-import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
+import java.util.Optional;
+
 @PageTitle("Master-Detail")
-@Route("master-detail/:samplePersonID?/:action?(edit)")
+@Route("master-detail/:" + MasterDetailView.PERSON_ID + "?/:action?(edit)")
 @Menu(order = 1, icon = LineAwesomeIconUrl.COLUMNS_SOLID)
 @Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {
 
-    private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
+    public static final String PERSON_ID = "personId";
+    private final String PERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
 
     private final Grid<Person> grid = new Grid<>(Person.class, false);
 
@@ -58,7 +55,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private final BeanValidationBinder<Person> binder;
 
-    private Person samplePerson;
+    private Person person;
 
     private final PersonService personService;
 
@@ -68,7 +65,6 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
-
         createGridLayout(splitLayout);
         createEditorLayout(splitLayout);
 
@@ -83,7 +79,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         grid.addColumn("occupation").setAutoWidth(true);
         grid.addColumn("role").setAutoWidth(true);
         LitRenderer<Person> importantRenderer = LitRenderer.<Person>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
+                        "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
                 .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
                         important -> important.isImportant()
                                 ? "var(--lumo-primary-text-color)"
@@ -92,14 +88,14 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
 
         grid.setItems(query -> personService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
+                        PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
         // when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
+                UI.getCurrent().navigate(String.format(PERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
                 UI.getCurrent().navigate(MasterDetailView.class);
@@ -109,8 +105,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         // Configure Form
         binder = new BeanValidationBinder<>(Person.class);
 
-        // Bind fields. This is where you'd define e.g. validation rules
-
+        // Bind fields. This is where you would define converters and validation rules
         binder.bindInstanceFields(this);
 
         cancel.addClickListener(e -> {
@@ -120,11 +115,11 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.samplePerson == null) {
-                    this.samplePerson = new Person();
+                if (this.person == null) {
+                    this.person = new Person();
                 }
-                binder.writeBean(this.samplePerson);
-                personService.update(this.samplePerson);
+                binder.writeBean(this.person);
+                personService.update(this.person);
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");
@@ -142,14 +137,14 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Long> samplePersonId = event.getRouteParameters().get(SAMPLEPERSON_ID).map(Long::parseLong);
-        if (samplePersonId.isPresent()) {
-            Optional<Person> samplePersonFromBackend = personService.get(samplePersonId.get());
-            if (samplePersonFromBackend.isPresent()) {
-                populateForm(samplePersonFromBackend.get());
+        Optional<Long> personId = event.getRouteParameters().get(PERSON_ID).map(Long::parseLong);
+        if (personId.isPresent()) {
+            Optional<Person> personFromBackend = personService.get(personId.get());
+            if (personFromBackend.isPresent()) {
+                populateForm(personFromBackend.get());
             } else {
                 Notification.show(
-                        String.format("The requested samplePerson was not found, ID = %s", samplePersonId.get()), 3000,
+                        String.format("The requested person was not found, ID = %s", personId.get()), 3000,
                         Notification.Position.BOTTOM_START);
                 // when a row is selected but the data is no longer available,
                 // refresh grid
@@ -210,8 +205,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
     }
 
     private void populateForm(Person value) {
-        this.samplePerson = value;
-        binder.readBean(this.samplePerson);
-
+        this.person = value;
+        binder.readBean(this.person);
     }
 }
