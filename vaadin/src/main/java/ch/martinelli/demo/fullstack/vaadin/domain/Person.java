@@ -2,6 +2,8 @@ package ch.martinelli.demo.fullstack.vaadin.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -17,6 +19,7 @@ public class Person {
 
     private String firstName;
     private String lastName;
+    @NotBlank
     @Email
     private String email;
     private String phone;

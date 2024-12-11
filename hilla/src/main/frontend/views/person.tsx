@@ -11,8 +11,8 @@ export const config: ViewConfig = {
 
 export default function ProductsView() {
     return (
-        <div className='p-l h-full'>
-            <AutoCrud service={PersonService} model={PersonModel} />
+        <div className='h-full'>
+            <AutoCrud service={PersonService} model={PersonModel} className='h-full'/>
         </div>
     );
 }
