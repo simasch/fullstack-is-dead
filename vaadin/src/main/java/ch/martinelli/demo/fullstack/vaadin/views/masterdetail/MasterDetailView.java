@@ -5,9 +5,6 @@ import ch.martinelli.demo.fullstack.vaadin.domain.PersonService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
@@ -16,8 +13,6 @@ import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.*;
@@ -36,38 +31,47 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
     public static final String PERSON_ID = "personId";
     private final String PERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
 
+    private final PersonService personService;
+
     private final Grid<Person> grid = new Grid<>(Person.class, false);
-
-    private TextField firstName;
-    private TextField lastName;
-    private TextField email;
-    private TextField phone;
-    private DatePicker dateOfBirth;
-    private TextField occupation;
-    private TextField role;
-    private Checkbox important;
-
+    private PersonForm personForm;
     private final Button cancel = new Button("Cancel");
     private final Button save = new Button("Save");
 
-    private final BeanValidationBinder<Person> binder;
-
     private Person person;
-
-    private final PersonService personService;
 
     public MasterDetailView(PersonService personService) {
         this.personService = personService;
         addClassNames("master-detail-view");
 
-        // Create UI
         SplitLayout splitLayout = new SplitLayout();
         createGridLayout(splitLayout);
         createEditorLayout(splitLayout);
-
         add(splitLayout);
 
-        // Configure Grid
+        createGrid();
+        addButtonClickListeners();
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        Optional<Long> personId = event.getRouteParameters().get(PERSON_ID).map(Long::parseLong);
+        if (personId.isPresent()) {
+            Optional<Person> personFromBackend = personService.get(personId.get());
+            if (personFromBackend.isPresent()) {
+                populateForm(personFromBackend.get());
+            } else {
+                Notification.show(
+                        String.format("The requested person was not found, ID = %s", personId.get()), 3000,
+                        Notification.Position.BOTTOM_START);
+                // when a row is selected but the data is no longer available, refresh the grid
+                refreshGrid();
+                event.forwardTo(MasterDetailView.class);
+            }
+        }
+    }
+
+    private void createGrid() {
         grid.addColumn("firstName").setAutoWidth(true);
         grid.addColumn("lastName").setAutoWidth(true);
         grid.addColumn("email").setAutoWidth(true);
@@ -81,7 +85,6 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
                         important -> important.isImportant()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
-
         grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
 
         grid.setItems(query -> personService.list(
@@ -98,57 +101,6 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
                 UI.getCurrent().navigate(MasterDetailView.class);
             }
         });
-
-        // Configure Form
-        binder = new BeanValidationBinder<>(Person.class);
-
-        // Bind fields. This is where you would define converters and validation rules
-        binder.bindInstanceFields(this);
-
-        cancel.addClickListener(e -> {
-            clearForm();
-            refreshGrid();
-        });
-
-        save.addClickListener(e -> {
-            try {
-                if (this.person == null) {
-                    this.person = new Person();
-                }
-                binder.writeBean(this.person);
-                personService.update(this.person);
-                clearForm();
-                refreshGrid();
-                Notification.show("Data updated");
-                UI.getCurrent().navigate(MasterDetailView.class);
-            } catch (ObjectOptimisticLockingFailureException exception) {
-                Notification n = Notification.show(
-                        "Error updating the data. Somebody else has updated the record while you were making changes.");
-                n.setPosition(Position.MIDDLE);
-                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Failed to update the data. Check again that all values are valid");
-            }
-        });
-    }
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Long> personId = event.getRouteParameters().get(PERSON_ID).map(Long::parseLong);
-        if (personId.isPresent()) {
-            Optional<Person> personFromBackend = personService.get(personId.get());
-            if (personFromBackend.isPresent()) {
-                populateForm(personFromBackend.get());
-            } else {
-                Notification.show(
-                        String.format("The requested person was not found, ID = %s", personId.get()), 3000,
-                        Notification.Position.BOTTOM_START);
-                // when a row is selected but the data is no longer available,
-                // refresh grid
-                refreshGrid();
-                event.forwardTo(MasterDetailView.class);
-            }
-        }
     }
 
     private void createEditorLayout(SplitLayout splitLayout) {
@@ -159,18 +111,9 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         editorDiv.setClassName("editor");
         editorLayoutDiv.add(editorDiv);
 
-        FormLayout formLayout = new FormLayout();
-        firstName = new TextField("First Name");
-        lastName = new TextField("Last Name");
-        email = new TextField("Email");
-        phone = new TextField("Phone");
-        dateOfBirth = new DatePicker("Date Of Birth");
-        occupation = new TextField("Occupation");
-        role = new TextField("Role");
-        important = new Checkbox("Important");
-        formLayout.add(firstName, lastName, email, phone, dateOfBirth, occupation, role, important);
+        personForm = new PersonForm();
 
-        editorDiv.add(formLayout);
+        editorDiv.add(personForm);
         createButtonLayout(editorLayoutDiv);
 
         splitLayout.addToSecondary(editorLayoutDiv);
@@ -192,6 +135,34 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         wrapper.add(grid);
     }
 
+    private void addButtonClickListeners() {
+        cancel.addClickListener(e -> {
+            clearForm();
+            refreshGrid();
+        });
+
+        save.addClickListener(e -> {
+            try {
+                if (this.person == null) {
+                    this.person = new Person();
+                }
+                personForm.writeBean(this.person);
+                personService.update(this.person);
+                clearForm();
+                refreshGrid();
+                Notification.show("Data updated");
+                UI.getCurrent().navigate(MasterDetailView.class);
+            } catch (ObjectOptimisticLockingFailureException exception) {
+                Notification n = Notification.show(
+                        "Error updating the data. Somebody else has updated the record while you were making changes.");
+                n.setPosition(Position.MIDDLE);
+                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } catch (ValidationException validationException) {
+                Notification.show("Failed to update the data. Check again that all values are valid");
+            }
+        });
+    }
+
     private void refreshGrid() {
         grid.select(null);
         grid.getDataProvider().refreshAll();
@@ -203,6 +174,8 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private void populateForm(Person value) {
         this.person = value;
-        binder.readBean(this.person);
+        personForm.readBean(this.person);
     }
+
+
 }
