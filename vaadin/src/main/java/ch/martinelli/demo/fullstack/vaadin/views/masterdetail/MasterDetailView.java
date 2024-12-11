@@ -7,12 +7,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -33,7 +31,6 @@ import java.util.Optional;
 @PageTitle("Master-Detail")
 @Route("master-detail/:" + MasterDetailView.PERSON_ID + "?/:action?(edit)")
 @Menu(order = 1, icon = LineAwesomeIconUrl.COLUMNS_SOLID)
-@Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     public static final String PERSON_ID = "personId";
