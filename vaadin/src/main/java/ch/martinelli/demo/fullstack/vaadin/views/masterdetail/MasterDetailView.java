@@ -55,20 +55,22 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Long> personId = event.getRouteParameters().get(PERSON_ID).map(Long::parseLong);
-        if (personId.isPresent()) {
-            Optional<Person> personFromBackend = personService.get(personId.get());
-            if (personFromBackend.isPresent()) {
-                populateForm(personFromBackend.get());
-            } else {
-                Notification.show(
-                        String.format("The requested person was not found, ID = %s", personId.get()), 3000,
-                        Notification.Position.BOTTOM_START);
-                // when a row is selected but the data is no longer available, refresh the grid
-                refreshGrid();
-                event.forwardTo(MasterDetailView.class);
-            }
-        }
+        event.getRouteParameters()
+                .get(PERSON_ID)
+                .map(Long::parseLong)
+                .ifPresent(personId -> {
+                    Optional<Person> personFromBackend = personService.get(personId);
+                    if (personFromBackend.isPresent()) {
+                        populateForm(personFromBackend.get());
+                    } else {
+                        Notification.show(
+                                String.format("The requested person was not found, ID = %s", personId), 3000,
+                                Notification.Position.BOTTOM_START);
+                        // when a row is selected but the data is no longer available, refresh the grid
+                        refreshGrid();
+                        event.forwardTo(MasterDetailView.class);
+                    }
+                });
     }
 
     private void createGrid() {
@@ -176,6 +178,5 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         this.person = value;
         personForm.readBean(this.person);
     }
-
 
 }
